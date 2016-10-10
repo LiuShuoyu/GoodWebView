@@ -36,12 +36,12 @@
         }
         else
         {
-            
+            self.webView =[self instancetypeUIWebView];
         }
 
-        self.webView.backgroundColor = [UIColor redColor];
-        [self addSubview:self.webView ];
-        self.backgroundColor=[UIColor yellowColor];
+        [self addSubview:self.webView];
+        self.scalesPageToFit = YES;
+
     }
     return self;
 }
@@ -115,9 +115,49 @@
     webView.delegate =_webViewProgress;
     self.webViewProgress.webViewProxyDelegate = self;
     self.webViewProgress.progressDelegate = self;
-
     return webView;
 }
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+//    if(self.originRequest == nil)
+//    {
+//        self.originRequest = webView.request;
+//    }
+//    
+//    [self callback_webViewDidFinishLoad];
+}
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+//    [self callback_webViewDidStartLoad];
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+//    [self callback_webViewDidFailLoadWithError:error];
+}
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+//    BOOL resultBOOL = [self callback_webViewShouldStartLoadWithRequest:request navigationType:navigationType];
+//    return resultBOOL;
+    return YES;
+}
+- (void)webViewProgress:(IMY_NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
+{
+    self.estimatedProgress = progress;
+}
+
+
+-(WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
+{
+    if (!navigationAction.targetFrame.isMainFrame) {
+        [webView loadRequest:navigationAction.request];
+    }
+    return nil;
+}
+
+
 
 
 #pragma mark KVO

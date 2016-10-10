@@ -33,6 +33,7 @@ __TVOS_PROHIBITED @protocol GoodWebViewDelegate <NSObject>
 - (void)loadRequest:(NSURLRequest *)request;
 - (void)loadHTMLString:(NSString *)string baseURL:( NSURL *)baseURL;
 
+@property (nonatomic) BOOL scalesPageToFit;
 @property (nonatomic, readonly) NSURL *URL;
 @property (nonatomic, readonly, strong) NSURLRequest *request;
 @property (nonatomic, readonly) double estimatedProgress;
@@ -41,7 +42,7 @@ __TVOS_PROHIBITED @protocol GoodWebViewDelegate <NSObject>
 @property (nonatomic, readonly, getter=canGoForward) BOOL canGoForward;
 @property (nonatomic, readonly, getter=isLoading) BOOL loading;
 
-@property (nonatomic, assign) id <UIWebViewDelegate> delegate;
+@property (nonatomic, assign) id <GoodWebViewDelegate> delegate;
 
 - (void)reload;
 - (void)stopLoading;
