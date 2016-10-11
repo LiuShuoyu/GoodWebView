@@ -27,8 +27,26 @@
 @synthesize isShowWKWebViewClass =_isShowWKWebViewClass;
 @synthesize scalesPageToFit = _scalesPageToFit;
 
+#pragma mark dealloc
+-(void)dealloc
+{
+    [self stopLoading];
+    if (_isShowWKWebViewClass)
+    {
+        [self.showWebView removeObserver:self forKeyPath:@"title" context:nil];
+        [self.showWebView removeObserver:self forKeyPath:@"estimatedProgress" context:nil];
+        ((WKWebView *)self.showWebView).UIDelegate =nil;
+        ((WKWebView *)self.showWebView).navigationDelegate =nil;
+    }
+    else
+    {
+        ((UIWebView *)self.showWebView).delegate =nil;
+    }
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+}
 
-#define mark   重写layout
+#pragma mark   重写layout
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -75,13 +93,11 @@
     webView.opaque = NO;
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
     return webView;
 }
 - (UIWebView*)instancetypeUIWebView
 {
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.bounds];
-    //防止留在，
     webView.backgroundColor =[UIColor clearColor];
     webView.opaque =NO;
     for (UIView *subview in [webView.scrollView subviews])
@@ -208,7 +224,8 @@
 
 #pragma mark KVO
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString*,id> *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"estimatedProgress"])
     {

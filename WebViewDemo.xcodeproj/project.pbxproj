@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4611AA451DAD21550067AE1D /* GoodWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4611AA411DAD21550067AE1D /* GoodWebView.m */; };
+		4611AA461DAD21550067AE1D /* IMY_NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 4611AA441DAD21550067AE1D /* IMY_NJKWebViewProgress.m */; };
+		4611AA491DAD25030067AE1D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4611AA481DAD25030067AE1D /* WebViewController.m */; };
 		84A570DD1DAA23FC00276097 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A570DC1DAA23FC00276097 /* main.m */; };
 		84A570E01DAA23FC00276097 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A570DF1DAA23FC00276097 /* AppDelegate.m */; };
 		84A570E31DAA23FC00276097 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A570E21DAA23FC00276097 /* ViewController.m */; };
-		84A570E61DAA23FC00276097 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A570E41DAA23FC00276097 /* Main.storyboard */; };
 		84A570E81DAA23FC00276097 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A570E71DAA23FC00276097 /* Assets.xcassets */; };
 		84A570EB1DAA23FC00276097 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A570E91DAA23FC00276097 /* LaunchScreen.storyboard */; };
 		84A570F61DAA23FC00276097 /* WebViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A570F51DAA23FC00276097 /* WebViewDemoTests.m */; };
 		84A571011DAA23FC00276097 /* WebViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571001DAA23FC00276097 /* WebViewDemoUITests.m */; };
-		84A571101DAA244D00276097 /* GoodWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5710F1DAA244D00276097 /* GoodWebView.m */; };
-		84A571141DAA37D900276097 /* IMY_NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571131DAA37D900276097 /* IMY_NJKWebViewProgress.m */; };
 		84A571171DAA386800276097 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A571161DAA386800276097 /* UIKit.framework */; };
 		84A571191DAA387A00276097 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A571181DAA387A00276097 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -39,13 +39,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4611AA401DAD21550067AE1D /* GoodWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodWebView.h; sourceTree = "<group>"; };
+		4611AA411DAD21550067AE1D /* GoodWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodWebView.m; sourceTree = "<group>"; };
+		4611AA431DAD21550067AE1D /* IMY_NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMY_NJKWebViewProgress.h; sourceTree = "<group>"; };
+		4611AA441DAD21550067AE1D /* IMY_NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMY_NJKWebViewProgress.m; sourceTree = "<group>"; };
+		4611AA471DAD25030067AE1D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		4611AA481DAD25030067AE1D /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		84A570D81DAA23FC00276097 /* WebViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A570DC1DAA23FC00276097 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84A570DE1DAA23FC00276097 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84A570DF1DAA23FC00276097 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		84A570E11DAA23FC00276097 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		84A570E21DAA23FC00276097 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		84A570E51DAA23FC00276097 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84A570E71DAA23FC00276097 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84A570EA1DAA23FC00276097 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84A570EC1DAA23FC00276097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,10 +60,6 @@
 		84A570FC1DAA23FC00276097 /* WebViewDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebViewDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A571001DAA23FC00276097 /* WebViewDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewDemoUITests.m; sourceTree = "<group>"; };
 		84A571021DAA23FC00276097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84A5710E1DAA244D00276097 /* GoodWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodWebView.h; sourceTree = "<group>"; };
-		84A5710F1DAA244D00276097 /* GoodWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodWebView.m; sourceTree = "<group>"; };
-		84A571121DAA37D900276097 /* IMY_NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMY_NJKWebViewProgress.h; sourceTree = "<group>"; };
-		84A571131DAA37D900276097 /* IMY_NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMY_NJKWebViewProgress.m; sourceTree = "<group>"; };
 		84A571161DAA386800276097 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84A571181DAA387A00276097 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -90,6 +91,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4611AA3F1DAD21550067AE1D /* GoodWebView */ = {
+			isa = PBXGroup;
+			children = (
+				4611AA401DAD21550067AE1D /* GoodWebView.h */,
+				4611AA411DAD21550067AE1D /* GoodWebView.m */,
+				4611AA421DAD21550067AE1D /* UIWebViewProgress */,
+			);
+			path = GoodWebView;
+			sourceTree = "<group>";
+		};
+		4611AA421DAD21550067AE1D /* UIWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				4611AA431DAD21550067AE1D /* IMY_NJKWebViewProgress.h */,
+				4611AA441DAD21550067AE1D /* IMY_NJKWebViewProgress.m */,
+			);
+			path = UIWebViewProgress;
+			sourceTree = "<group>";
+		};
 		84A570CF1DAA23FC00276097 = {
 			isa = PBXGroup;
 			children = (
@@ -114,14 +134,13 @@
 		84A570DA1DAA23FC00276097 /* WebViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				4611AA3F1DAD21550067AE1D /* GoodWebView */,
 				84A570DE1DAA23FC00276097 /* AppDelegate.h */,
 				84A570DF1DAA23FC00276097 /* AppDelegate.m */,
-				84A571111DAA37D900276097 /* UIWebViewProgress */,
 				84A570E11DAA23FC00276097 /* ViewController.h */,
 				84A570E21DAA23FC00276097 /* ViewController.m */,
-				84A5710E1DAA244D00276097 /* GoodWebView.h */,
-				84A5710F1DAA244D00276097 /* GoodWebView.m */,
-				84A570E41DAA23FC00276097 /* Main.storyboard */,
+				4611AA471DAD25030067AE1D /* WebViewController.h */,
+				4611AA481DAD25030067AE1D /* WebViewController.m */,
 				84A570E71DAA23FC00276097 /* Assets.xcassets */,
 				84A570E91DAA23FC00276097 /* LaunchScreen.storyboard */,
 				84A570EC1DAA23FC00276097 /* Info.plist */,
@@ -154,15 +173,6 @@
 				84A571021DAA23FC00276097 /* Info.plist */,
 			);
 			path = WebViewDemoUITests;
-			sourceTree = "<group>";
-		};
-		84A571111DAA37D900276097 /* UIWebViewProgress */ = {
-			isa = PBXGroup;
-			children = (
-				84A571121DAA37D900276097 /* IMY_NJKWebViewProgress.h */,
-				84A571131DAA37D900276097 /* IMY_NJKWebViewProgress.m */,
-			);
-			path = UIWebViewProgress;
 			sourceTree = "<group>";
 		};
 		84A571151DAA386800276097 /* Frameworks */ = {
@@ -283,7 +293,6 @@
 			files = (
 				84A570EB1DAA23FC00276097 /* LaunchScreen.storyboard in Resources */,
 				84A570E81DAA23FC00276097 /* Assets.xcassets in Resources */,
-				84A570E61DAA23FC00276097 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,10 +318,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A570E31DAA23FC00276097 /* ViewController.m in Sources */,
+				4611AA491DAD25030067AE1D /* WebViewController.m in Sources */,
 				84A570E01DAA23FC00276097 /* AppDelegate.m in Sources */,
-				84A571101DAA244D00276097 /* GoodWebView.m in Sources */,
+				4611AA451DAD21550067AE1D /* GoodWebView.m in Sources */,
 				84A570DD1DAA23FC00276097 /* main.m in Sources */,
-				84A571141DAA37D900276097 /* IMY_NJKWebViewProgress.m in Sources */,
+				4611AA461DAD21550067AE1D /* IMY_NJKWebViewProgress.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,14 +358,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		84A570E41DAA23FC00276097 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				84A570E51DAA23FC00276097 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		84A570E91DAA23FC00276097 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
