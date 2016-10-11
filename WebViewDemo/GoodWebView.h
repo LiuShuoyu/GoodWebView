@@ -23,15 +23,15 @@ __TVOS_PROHIBITED @protocol GoodWebViewDelegate <NSObject>
 @end
 
 @interface GoodWebView : UIView
-//初始化
-- (id)initWithFrame:(CGRect)frame;
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (id)init;
+////初始化
+//- (id)initWithFrame:(CGRect)frame;
+//- (id)initWithCoder:(NSCoder *)aDecoder;
+//- (id)init;
 
-@property (nonatomic, readonly, strong) UIScrollView *scrollView NS_AVAILABLE_IOS(5_0);
+@property(nonatomic,readonly)UIView *showWebView;
+@property (nonatomic, readonly) BOOL usingUIWebView;
 
-- (void)loadRequest:(NSURLRequest *)request;
-- (void)loadHTMLString:(NSString *)string baseURL:( NSURL *)baseURL;
+
 
 @property (nonatomic) BOOL scalesPageToFit;
 @property (nonatomic, readonly) NSURL *URL;
@@ -41,8 +41,11 @@ __TVOS_PROHIBITED @protocol GoodWebViewDelegate <NSObject>
 @property (nonatomic, readonly, getter=canGoBack) BOOL canGoBack;
 @property (nonatomic, readonly, getter=canGoForward) BOOL canGoForward;
 @property (nonatomic, readonly, getter=isLoading) BOOL loading;
-
+@property (nonatomic, readonly, strong) UIScrollView *scrollView NS_AVAILABLE_IOS(5_0);
 @property (nonatomic, assign) id <GoodWebViewDelegate> delegate;
+
+- (void)loadRequest:(NSURLRequest *)request;
+- (void)loadHTMLString:(NSString *)string baseURL:( NSURL *)baseURL;
 
 - (void)reload;
 - (void)stopLoading;

@@ -11,68 +11,49 @@
 #import "IMY_NJKWebViewProgress.h"
 
 
-@interface GoodWebView ()<UIWebViewDelegate,WKNavigationDelegate,WKUIDelegate,IMY_NJKWebViewProgressDelegate,UIGestureRecognizerDelegate>
+@interface GoodWebView ()<UIWebViewDelegate,WKNavigationDelegate,WKUIDelegate,IMY_NJKWebViewProgressDelegate>
 
-@property(nonatomic,strong)UIView *webView;
 @property (nonatomic, assign) double estimatedProgress;
 @property (nonatomic, copy) NSString *title;
-
 @property (nonatomic, strong) IMY_NJKWebViewProgress* webViewProgress;
+@property (nonatomic, strong) NSURLRequest *request;
 
 @end
 
 
 @implementation GoodWebView
 
-- (id)initWithFrame:(CGRect)frame
+@synthesize showWebView =_showWebView;
+@synthesize usingUIWebView =_usingUIWebView;
+
+#pragma mark 赖加载
+- (UIView *)showWebView
 {
-    self =[super initWithFrame: frame];
-    if (self)
+    if (!_showWebView)
     {
         Class wkWebView = NSClassFromString(@"WKWebView");
         if (wkWebView)
         {
-            self.webView =[self instancetypeWKWebView];
+            _showWebView =[self instancetypeWKWebView];
         }
         else
         {
-            self.webView =[self instancetypeUIWebView];
+            _showWebView =[self instancetypeUIWebView];
         }
-
-        [self addSubview:self.webView];
+        [self addSubview:_showWebView];
         self.scalesPageToFit = YES;
-
     }
-    return self;
-}
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self =[super initWithCoder:aDecoder];
-    if (self)
-    {
-        
-    }
-    return self;
-}
-- (id)init
-{
-    self=[super init];
-    if (self)
-    {
-        
-    }
-    return self;
+    return _showWebView;
 }
 
+#define mark   重写layout
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
-    self.webView.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
+    self.showWebView.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
 }
 
-
-#pragma mark WKWebView
+#pragma mark WKWebView annd UIWebView  初始化
 - (WKWebView *)instancetypeWKWebView
 {
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
@@ -92,11 +73,6 @@
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
     return webView;
 }
-
-#pragma mark WKWebViewDelegate
-
-
-#pragma mark UIWebView and UIWebViewDelegate
 - (UIWebView*)instancetypeUIWebView
 {
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.bounds];
@@ -117,31 +93,69 @@
     self.webViewProgress.progressDelegate = self;
     return webView;
 }
+#pragma mark WKWebViewDelegate
 
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+-(WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
 {
-    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-//    if(self.originRequest == nil)
-//    {
-//        self.originRequest = webView.request;
-//    }
-//    
-//    [self callback_webViewDidFinishLoad];
+    if (!navigationAction.targetFrame.isMainFrame) //当网页目标处触发目标为nil的时候，避免重新开辟网页， 直接强制打开连接，
+    {
+        [webView loadRequest:navigationAction.request];
+    }
+    return nil;
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    BOOL resultBOOL = [self handler_webViewShouldStartLoadWithRequest:navigationAction.request navigationType:navigationAction.navigationType];
+    if(resultBOOL)
+    {
+        self.request =navigationAction.request;
+        if(!navigationAction.targetFrame)
+        {
+            NSString *url = navigationAction.request.URL.absoluteString;
+            NSString *uf8URL =[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:uf8URL]]];
+        }
+        decisionHandler(WKNavigationActionPolicyAllow); 
+    }
+    else
+    {
+        decisionHandler(WKNavigationActionPolicyCancel);
+    }
+}
+
+-(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
+{
+    [self handler_webViewDidStartLoad];
+}
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    [self handler_webViewDidFinishLoad];
+}
+- (void)webView:(WKWebView *) webView didFailProvisionalNavigation: (WKNavigation *) navigation withError: (NSError *) error
+{
+    [self handler_webViewDidFailLoadWithError:error];
+}
+- (void)webView: (WKWebView *)webView didFailNavigation:(WKNavigation *) navigation withError: (NSError *) error
+{
+    [self handler_webViewDidFailLoadWithError:error];
+}
+#pragma mark   UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+   return  [self handler_webViewShouldStartLoadWithRequest:request navigationType:navigationType];
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-//    [self callback_webViewDidStartLoad];
+    [self handler_webViewDidStartLoad];
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-//    [self callback_webViewDidFailLoadWithError:error];
+    [self handler_webViewDidFinishLoad];
 }
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-//    BOOL resultBOOL = [self callback_webViewShouldStartLoadWithRequest:request navigationType:navigationType];
-//    return resultBOOL;
-    return YES;
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    [self handler_webViewDidFailLoadWithError:error];
 }
 - (void)webViewProgress:(IMY_NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
@@ -149,15 +163,41 @@
 }
 
 
--(WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
+#pragma mark mainCall_back  回调
+- (BOOL)handler_webViewShouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(NSInteger)navigationType
 {
-    if (!navigationAction.targetFrame.isMainFrame) {
-        [webView loadRequest:navigationAction.request];
+    if (self.delegate &&[self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
+    {
+        
+        if(navigationType == -1) //兼容 UIWebView 和WKWebView 的navigationType 的差距
+        {
+            navigationType = UIWebViewNavigationTypeOther;
+        }
+       return  [self.delegate webView:self shouldStartLoadWithRequest:request navigationType:navigationType];
     }
-    return nil;
+    
+    return YES;
 }
-
-
+- (void)handler_webViewDidStartLoad
+{
+    if (self.delegate &&[self.delegate respondsToSelector:@selector(webViewDidStartLoad:)])
+    {
+        [self.delegate webViewDidStartLoad:self];
+    }
+}
+- (void)handler_webViewDidFinishLoad
+{
+    if (self.delegate &&[self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)]) {
+        [self.delegate webViewDidFinishLoad:self];
+    }
+}
+- (void)handler_webViewDidFailLoadWithError:(NSError *)error
+{
+    if (self.delegate &&[self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
+    {
+        [self.delegate webView:self didFailLoadWithError:error];
+    }
+}
 
 
 #pragma mark KVO
