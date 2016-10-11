@@ -422,7 +422,18 @@
 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
 {
-    
+    if (_isShowWKWebViewClass)
+    {
+        return[((WKWebView *)self.showWebView) evaluateJavaScript:javaScriptString completionHandler:completionHandler];
+    }
+    else
+    {
+        NSString  *jsResult =[((UIWebView *)self.showWebView) stringByEvaluatingJavaScriptFromString:javaScriptString] ;
+        if (completionHandler)
+        {
+            completionHandler(jsResult,nil);
+        }
+    }
 }
 
 
