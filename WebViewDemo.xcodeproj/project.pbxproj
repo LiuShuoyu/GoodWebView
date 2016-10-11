@@ -241,6 +241,7 @@
 				TargetAttributes = {
 					84A570D71DAA23FC00276097 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 8N585W264R;
 						ProvisioningStyle = Automatic;
 					};
 					84A570F01DAA23FC00276097 = {
@@ -460,7 +461,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8N585W264R;
 				INFOPLIST_FILE = WebViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhuxun.WebViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -471,7 +475,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8N585W264R;
 				INFOPLIST_FILE = WebViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhuxun.WebViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -543,6 +550,7 @@
 				84A571071DAA23FC00276097 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84A571081DAA23FC00276097 /* Build configuration list for PBXNativeTarget "WebViewDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -551,6 +559,7 @@
 				84A5710A1DAA23FC00276097 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84A5710B1DAA23FC00276097 /* Build configuration list for PBXNativeTarget "WebViewDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -559,6 +568,7 @@
 				84A5710D1DAA23FC00276097 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

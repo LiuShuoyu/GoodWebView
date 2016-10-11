@@ -23,13 +23,10 @@ __TVOS_PROHIBITED @protocol GoodWebViewDelegate <NSObject>
 @end
 
 @interface GoodWebView : UIView
-////初始化
-//- (id)initWithFrame:(CGRect)frame;
-//- (id)initWithCoder:(NSCoder *)aDecoder;
-//- (id)init;
+
 
 @property(nonatomic,readonly)UIView *showWebView;
-@property (nonatomic, readonly) BOOL usingUIWebView;
+@property (nonatomic, readonly) BOOL isShowWKWebViewClass;
 
 
 

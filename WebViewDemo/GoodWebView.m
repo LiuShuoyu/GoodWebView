@@ -24,9 +24,18 @@
 @implementation GoodWebView
 
 @synthesize showWebView =_showWebView;
-@synthesize usingUIWebView =_usingUIWebView;
+@synthesize isShowWKWebViewClass =_isShowWKWebViewClass;
+@synthesize scalesPageToFit = _scalesPageToFit;
 
-#pragma mark 赖加载
+
+#define mark   重写layout
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.showWebView.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+}
+
+#pragma mark 赖加载 执行 初始化
 - (UIView *)showWebView
 {
     if (!_showWebView)
@@ -35,22 +44,18 @@
         if (wkWebView)
         {
             _showWebView =[self instancetypeWKWebView];
+            _isShowWKWebViewClass =YES;
+            
         }
         else
         {
             _showWebView =[self instancetypeUIWebView];
+            _isShowWKWebViewClass =NO;
         }
         [self addSubview:_showWebView];
         self.scalesPageToFit = YES;
     }
     return _showWebView;
-}
-
-#define mark   重写layout
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    self.showWebView.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
 }
 
 #pragma mark WKWebView annd UIWebView  初始化
@@ -61,8 +66,8 @@
     configuration.preferences.javaScriptCanOpenWindowsAutomatically =false;
     configuration.userContentController = [WKUserContentController new];
     
-    NSLog(@"self.bounds.wheight=%f",self.bounds.size.height);
-    WKWebView* webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:configuration];
+    NSLog(@"self.bounds.wheight=%@",NSStringFromCGRect(self.bounds));
+    WKWebView* webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
     webView.UIDelegate = self;
     webView.navigationDelegate = self;
     webView.allowsBackForwardNavigationGestures =YES;
@@ -93,7 +98,7 @@
     self.webViewProgress.progressDelegate = self;
     return webView;
 }
-#pragma mark WKWebViewDelegate
+#pragma mark WKNavigationDelegate
 
 -(WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
 {
@@ -103,6 +108,8 @@
     }
     return nil;
 }
+
+#pragma mark WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
@@ -199,10 +206,9 @@
     }
 }
 
-
 #pragma mark KVO
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"estimatedProgress"])
     {
@@ -213,4 +219,211 @@
         self.title = change[NSKeyValueChangeNewKey];
     }
 }
+
+#pragma mark  自定义的GoodWeb基础方法
+
+-(UIScrollView *)scrollView
+{
+    if (_isShowWKWebViewClass)
+    {
+        return  [(WKWebView*)self.showWebView scrollView];
+    }
+    else
+    {
+        return [(UIWebView*)self.showWebView scrollView];
+    }
+}
+
+- (NSURL *)URL
+{
+    if(_isShowWKWebViewClass)
+    {
+        return [(WKWebView*)self.showWebView URL];
+
+    }
+    else
+    {
+        return [(UIWebView*)self.showWebView request].URL;;
+    }
+}
+
+- (NSURLRequest *)request
+{
+    if(_isShowWKWebViewClass)
+    {
+        return self.request;
+        
+    }
+    else
+    {
+        return [(UIWebView*)self.showWebView request];;
+    }
+}
+
+-(BOOL)isLoading
+{
+    if (_isShowWKWebViewClass)
+    {
+        return  [(WKWebView*)self.showWebView isLoading];
+    }
+    else
+    {
+        return [(UIWebView*)self.showWebView isLoading];
+    }
+}
+
+-(BOOL)canGoBack
+{
+    if (_isShowWKWebViewClass)
+    {
+        return  [(WKWebView*)self.showWebView canGoBack];
+    }
+    else
+    {
+        return [(UIWebView*)self.showWebView canGoBack];
+    }
+}
+
+-(BOOL)canGoForward
+{
+    if (_isShowWKWebViewClass)
+    {
+        return  [(WKWebView*)self.showWebView canGoForward];
+    }
+    else
+    {
+        return [(UIWebView*)self.showWebView canGoForward];
+    }
+}
+
+- (void)setScalesPageToFit:(BOOL)scalesPageToFit
+{
+    _scalesPageToFit =scalesPageToFit;
+    if (_isShowWKWebViewClass)
+    {
+        WKWebView* webView =(WKWebView *) _showWebView;
+        
+        NSString *jScript = @"var meta = document.createElement('meta'); \
+        meta.name = 'viewport'; \
+        meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'; \
+        var head = document.getElementsByTagName('head')[0];\
+        head.appendChild(meta);";
+        
+        if(scalesPageToFit)
+        {
+            WKUserScript *wkUScript = [[NSClassFromString(@"WKUserScript") alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:NO];
+            [webView.configuration.userContentController addUserScript:wkUScript];
+        }
+        else
+        {
+            NSMutableArray* array = [NSMutableArray arrayWithArray:webView.configuration.userContentController.userScripts];
+            for (WKUserScript *wkUScript in array)
+            {
+                if([wkUScript.source isEqual:jScript])
+                {
+                    [array removeObject:wkUScript];
+                    break;
+                }
+            }
+            for (WKUserScript *wkUScript in array)
+            {
+                [webView.configuration.userContentController addUserScript:wkUScript];
+            }
+        }
+    }
+    else
+    {
+        ((UIWebView *)self.showWebView).scalesPageToFit =  scalesPageToFit;
+    }
+}
+
+- (BOOL)scalesPageToFit
+{
+    if (_isShowWKWebViewClass)
+    {
+        return  _scalesPageToFit;
+    }
+    else
+    {
+       return  [(UIWebView*)self.showWebView scalesPageToFit];
+    }
+}
+
+- (void)loadRequest:(NSURLRequest *)request
+{
+    self.request =request;
+    if (_isShowWKWebViewClass)
+    {
+        [(WKWebView*)self.showWebView loadRequest:request];
+    }
+    else
+    {
+        [(UIWebView*)self.showWebView loadRequest:request];
+    }
+}
+- (void)loadHTMLString:(NSString *)string baseURL:( NSURL *)baseURL
+{
+    if (_isShowWKWebViewClass)
+    {
+        [(WKWebView*)self.showWebView loadHTMLString:string baseURL:baseURL];
+    }
+    else
+    {
+        [(UIWebView*)self.showWebView loadHTMLString:string baseURL:baseURL];        
+    }
+    
+}
+
+- (void)reload
+{
+    if (_isShowWKWebViewClass)
+    {
+        [(WKWebView*)self.showWebView reload];
+    }
+    else
+    {
+        [(UIWebView*)self.showWebView reload];
+    }
+}
+- (void)stopLoading
+{
+    if (_isShowWKWebViewClass)
+    {
+        [(WKWebView*)self.showWebView stopLoading];
+    }
+    else
+    {
+        [(UIWebView*)self.showWebView stopLoading];
+    }
+}
+- (void)goBack
+{
+    if (_isShowWKWebViewClass)
+    {
+        [(WKWebView*)self.showWebView goBack];
+    }
+    else
+    {
+        [(UIWebView*)self.showWebView goBack];
+    }
+}
+- (void)goForward
+{
+    if (_isShowWKWebViewClass)
+    {
+        [(WKWebView*)self.showWebView goForward];
+    }
+    else
+    {
+        [(UIWebView*)self.showWebView goForward];
+    }
+}
+
+
+- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
+{
+    
+}
+
+
 @end
