@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) IMY_NJKWebViewProgress* webViewProgress;
 @property (nonatomic, strong) NSURLRequest *request;
+@property (strong, nonatomic) UIProgressView *progressView;
 
 @end
 
@@ -46,14 +47,31 @@
     
 }
 
+
 #pragma mark   重写layout
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     self.showWebView.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+    self.progressView.frame =CGRectMake(0, 64, CGRectGetWidth(self.frame), 5);
+
 }
 
 #pragma mark 赖加载 执行 初始化
+
+- (UIProgressView *)progressView
+{
+    if (!_progressView)
+    {
+        _progressView =[[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _progressView.progressTintColor =[UIColor blueColor];
+        
+        [self addSubview:_progressView];
+    }
+    _progressView.hidden =_progressView.progress<1 ?NO:YES;
+    return _progressView;
+}
+
 - (UIView *)showWebView
 {
     if (!_showWebView)
@@ -183,6 +201,8 @@
 - (void)webViewProgress:(IMY_NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
     self.estimatedProgress = progress;
+    [self.progressView setProgress:self.estimatedProgress  animated:YES];
+
 }
 
 
@@ -230,6 +250,9 @@
     if ([keyPath isEqualToString:@"estimatedProgress"])
     {
         self.estimatedProgress = [change[NSKeyValueChangeNewKey] doubleValue];
+        [self.progressView setProgress:self.estimatedProgress  animated:YES];
+        
+        NSLog(@"self.progress =%f",self.progressView.progress);
     }
     else if ([keyPath isEqualToString:@"title"])
     {
