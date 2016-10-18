@@ -67,7 +67,7 @@
         _progressView.progressTintColor =[UIColor blueColor];
         _progressView.trackTintColor =[UIColor groupTableViewBackgroundColor];
 
-        [self addSubview:_progressView];
+//        [self addSubview:_progressView];
     }
     _progressView.hidden =_progressView.progress<1 ?NO:YES;
     return _progressView;
