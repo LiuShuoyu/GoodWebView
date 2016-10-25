@@ -66,8 +66,7 @@
         _progressView =[[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         _progressView.progressTintColor =[UIColor blueColor];
         _progressView.trackTintColor =[UIColor groupTableViewBackgroundColor];
-
-//        [self addSubview:_progressView];
+        [self addSubview:_progressView];
     }
     _progressView.hidden =_progressView.progress<1 ?NO:YES;
     return _progressView;
@@ -102,7 +101,7 @@
     configuration.preferences = [WKPreferences  new];
     configuration.preferences.javaScriptCanOpenWindowsAutomatically =false;
     configuration.userContentController = [WKUserContentController new];
-    
+    configuration.allowsInlineMediaPlayback =YES;
     NSLog(@"self.bounds.wheight=%@",NSStringFromCGRect(self.bounds));
     WKWebView* webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
     webView.UIDelegate = self;
@@ -152,11 +151,8 @@
     if(resultBOOL)
     {
         self.request =navigationAction.request;
-        if(!navigationAction.targetFrame)
-        {
-            NSString *url = navigationAction.request.URL.absoluteString;
-            NSString *uf8URL =[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:uf8URL]]];
+        if (navigationAction.targetFrame == nil) {
+            [webView loadRequest:navigationAction.request];
         }
         decisionHandler(WKNavigationActionPolicyAllow); 
     }

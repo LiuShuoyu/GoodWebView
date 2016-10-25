@@ -15,7 +15,7 @@
 {
     self.view =[[GoodWebView alloc] init];
     self.view.backgroundColor =[UIColor whiteColor];
-    [(GoodWebView *)self.view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
+    [(GoodWebView *)self.view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.youtube.com"]]];
 
 }
 
